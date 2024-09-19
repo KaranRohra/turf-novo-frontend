@@ -1,4 +1,4 @@
-import { CreditCard, LogIn, LogOut, Menu, Settings, User } from "lucide-react";
+import { CreditCard, LogIn, LogOut, Menu, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import UI_PATH from "@/constants/ui-path-constants";
+import { useRouter } from "next/navigation";
 
 interface IHeaderDropdownMenuProps {
   dropdownTitle?: React.ReactNode;
@@ -17,6 +19,7 @@ interface IHeaderDropdownMenuProps {
   showBookingHistory?: boolean;
   showLogout?: boolean;
   showLogin?: boolean;
+  onMenuToggle?: () => void;
 }
 
 export default function HeaderDropdownMenu({
@@ -25,9 +28,13 @@ export default function HeaderDropdownMenu({
   showBookingHistory = true,
   showLogout = true,
   showLogin = false,
+  onMenuToggle,
 }: IHeaderDropdownMenuProps) {
+  const router = useRouter();
+  const navigateOnItemClick = (path: string) => router.push(path);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={onMenuToggle}>
       <DropdownMenuTrigger asChild>
         {dropdownTitle || (
           <Button variant="outline">
@@ -40,13 +47,13 @@ export default function HeaderDropdownMenu({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {showProfile && (
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => navigateOnItemClick(UI_PATH.PROFILE)}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           )}
           {showBookingHistory && (
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => navigateOnItemClick(UI_PATH.BOOKING_HISTORY)}>
               <CreditCard className="mr-2 h-4 w-4" />
               <span>Booking History</span>
             </DropdownMenuItem>
@@ -54,13 +61,13 @@ export default function HeaderDropdownMenu({
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {showLogout && (
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => navigateOnItemClick(UI_PATH.LOGIN)}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownMenuItem>
         )}
         {showLogin && (
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => navigateOnItemClick(UI_PATH.LOGIN)}>
             <LogIn className="mr-2 h-4 w-4" />
             <span>Log in</span>
           </DropdownMenuItem>
