@@ -1,7 +1,7 @@
 enum UI_PATH {
   HOME = "/",
   LOGIN = "/login",
-  SIGNUP = "/signup",
+  REGISTER = "/register",
   PROFILE = "/profile",
   BOOKING_HISTORY = "/booking-history",
   LOGOUT = "/logout",
