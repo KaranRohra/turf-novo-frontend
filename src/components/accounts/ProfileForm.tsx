@@ -122,7 +122,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               <Label htmlFor="password">Password</Label>
               <div className="flex">
                 <Input id="password" type={showPassword ? "text" : "password"} placeholder="Password" required />
-                <Button variant="outline" className="ml-3 p-2" onClick={() => setShowPassword(!showPassword)}>
+                <Button type="button" variant="outline" className="ml-3 p-2" onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </Button>
               </div>
