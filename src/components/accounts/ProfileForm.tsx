@@ -3,16 +3,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+export interface ProfileFormFields {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNo?: string;
+  password?: string;
+  confirmPassword?: string;
+}
 
 interface ProfileFormProps {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (formData: ProfileFormFields) => void;
   showFirstNameField?: boolean;
   showLastNameField?: boolean;
   showEmailField?: boolean;
   showPhoneNumberField?: boolean;
   showPasswordField?: boolean;
   showConfirmPasswordField?: boolean;
+  clearErrors?: boolean;
   children?: React.ReactNode;
 }
 
@@ -25,9 +35,16 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   showPhoneNumberField = false,
   showPasswordField = true,
   showConfirmPasswordField = false,
+  clearErrors = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    if (clearErrors) {
+      setErrors({});
+    }
+  }, [clearErrors]);
 
   const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,7 +97,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     }
 
     // If the form is valid, call the handleSubmit function
-    handleSubmit(e);
+    handleSubmit({
+      firstName,
+      lastName,
+      email,
+      phoneNo: phoneNumber,
+      password,
+      confirmPassword,
+    });
   };
 
   return (

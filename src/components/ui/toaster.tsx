@@ -19,7 +19,7 @@ export function Toaster() {
       {toasts.map(function ({ id, title, description, action, ...props }) {
         props.className = cn("top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4", props.className)
         return (
-          <Toast key={id} {...props}>
+          <Toast key={id} duration={3000} {...props}>
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (
