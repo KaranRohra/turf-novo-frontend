@@ -1,5 +1,4 @@
 "use client";
-import { apiTemplate } from "@/api/api-template-client";
 import { Endpoints, Methods } from "@/api/constants";
 import LoadingScreen from "@/app/loading";
 import ProfileForm, { ProfileFormFields } from "@/components/accounts/ProfileForm";
@@ -7,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import UI_PATH from "@/constants/ui-path-constants";
 import { useToast } from "@/hooks/use-toast";
+import { apiCall } from "@/utils/utils-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const handleFormSubmit = async (formData: ProfileFormFields) => {
     setLoading(true);
-    const res = await apiTemplate({
+    const res = await apiCall({
       method: Methods.POST,
       url: Endpoints.REGISTER,
       data: { ...formData },

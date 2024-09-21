@@ -11,3 +11,11 @@ export enum Methods {
   PUT = "PUT",
   DELETE = "DELETE",
 }
+
+export interface IApiTemplate {
+  method: Methods;
+  url: Endpoints;
+  data?: any;
+  headers?: any;
+  baseUrl?: string;
+}

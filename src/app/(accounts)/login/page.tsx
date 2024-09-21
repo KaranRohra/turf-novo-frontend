@@ -1,5 +1,4 @@
 "use client";
-import { apiTemplate } from "@/api/api-template-client";
 import { Endpoints, Methods } from "@/api/constants";
 import LoadingScreen from "@/app/loading";
 import ProfileForm, { ProfileFormFields } from "@/components/accounts/ProfileForm";
@@ -8,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import UI_PATH from "@/constants/ui-path-constants";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/providers/user-provider";
+import { apiCall } from "@/utils/utils-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,14 +22,14 @@ export default function LoginForm() {
 
   const handleFormSubmit = async (formData: ProfileFormFields) => {
     setLoading(true);
-    const res = await apiTemplate({
+    const res = await apiCall({
       method: Methods.POST,
       url: Endpoints.LOGIN,
       data: { ...formData },
     });
     if (res.data.token) {
       setCookie("token", res.data.token);
-      const userResponse = await apiTemplate({
+      const userResponse = await apiCall({
         method: Methods.GET,
         url: Endpoints.USER,
       });

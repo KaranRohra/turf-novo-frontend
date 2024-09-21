@@ -1,24 +1,13 @@
-import { Cookies } from "react-cookie";
-import { Endpoints, Methods } from "./constants";
+import { IApiTemplate, Methods } from "./constants";
 
-interface IApiTemplate {
-  method: Methods;
-  url: Endpoints;
-  data?: any;
-  headers?: any;
-}
-
-export const apiTemplate = async ({ method = Methods.GET, url, data = {}, headers }: IApiTemplate) => {
+export const apiTemplate = async ({ method = Methods.GET, url, data = {}, headers, baseUrl = "" }: IApiTemplate) => {
   const urlWithSearchParams = method === Methods.GET ? `${url}?${new URLSearchParams(data).toString()}` : url;
-  const cookies = new Cookies();
-  const token = cookies.get("token");
 
   try {
-    const response = await fetch(`/api/${urlWithSearchParams}`, {
+    const response = await fetch(`${baseUrl}/api/${urlWithSearchParams}`, {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
         ...headers,
       },
       body: method !== Methods.GET ? JSON.stringify(data) : undefined,

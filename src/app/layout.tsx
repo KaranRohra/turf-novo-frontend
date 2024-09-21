@@ -1,6 +1,6 @@
-import { apiTemplate } from "@/api/api-template-server";
 import { Endpoints, Methods } from "@/api/constants";
 import { Provider } from "@/providers/provider";
+import { apiCall } from "@/utils/utils-server";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -14,7 +14,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userDetails = await apiTemplate({
+  const userDetails = await apiCall({
     method: Methods.GET,
     url: Endpoints.USER,
   });
