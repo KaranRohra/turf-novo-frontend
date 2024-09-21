@@ -8,10 +8,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import UI_PATH from "@/constants/ui-path-constants";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterForm() {
   const { toast } = useToast();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const handleFormSubmit = async (formData: ProfileFormFields) => {
     setLoading(true);
@@ -28,7 +30,7 @@ export default function RegisterForm() {
       });
     } else {
       toast({
-        variant: "default",
+        variant: "success",
         title: "Account created successfully",
       });
     }
@@ -54,7 +56,7 @@ export default function RegisterForm() {
               clearErrors={loading}
             >
               <div className="flex justify-between w-full mt-2">
-                <Button type="button" variant="outline" className="hover:bg-gray-200 w-1/2 mr-2">
+                <Button onClick={() => router.push(UI_PATH.HOME)} type="button" variant="outline" className="hover:bg-gray-200 w-1/2 mr-2">
                   Cancel
                 </Button>
                 <Button type="submit" className="bg-blue-500 text-white hover:bg-blue-700 w-1/2 ml-2">
