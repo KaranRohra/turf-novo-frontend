@@ -1,6 +1,7 @@
 export enum Endpoints {
   LOGIN = "auth/signin",
   REGISTER = "auth/signup",
+  USER = "user",
   PROFILE = "profile",
 }
 

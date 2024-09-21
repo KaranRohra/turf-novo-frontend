@@ -1,5 +1,5 @@
 "use client";
-import { apiTemplate } from "@/api/api-template";
+import { apiTemplate } from "@/api/api-template-client";
 import { Endpoints, Methods } from "@/api/constants";
 import LoadingScreen from "@/app/loading";
 import ProfileForm, { ProfileFormFields } from "@/components/accounts/ProfileForm";
@@ -22,7 +22,6 @@ export default function RegisterForm() {
       url: Endpoints.REGISTER,
       data: { ...formData },
     });
-    console.log(res);
     if (res.data.message) {
       toast({
         variant: "destructive",

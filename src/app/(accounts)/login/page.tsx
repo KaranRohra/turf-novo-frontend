@@ -1,5 +1,5 @@
 "use client";
-import { apiTemplate } from "@/api/api-template";
+import { apiTemplate } from "@/api/api-template-client";
 import { Endpoints, Methods } from "@/api/constants";
 import LoadingScreen from "@/app/loading";
 import ProfileForm, { ProfileFormFields } from "@/components/accounts/ProfileForm";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import UI_PATH from "@/constants/ui-path-constants";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/providers/user-provider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,6 +18,7 @@ export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [_, setCookie] = useCookies();
+  const userContext = useUser();
 
   const handleFormSubmit = async (formData: ProfileFormFields) => {
     setLoading(true);
@@ -27,6 +29,11 @@ export default function LoginForm() {
     });
     if (res.data.token) {
       setCookie("token", res.data.token);
+      const userResponse = await apiTemplate({
+        method: Methods.GET,
+        url: Endpoints.USER,
+      });
+      userContext.setUser(userResponse.data);
       toast({
         variant: "success",
         title: "Logged in successfully",
