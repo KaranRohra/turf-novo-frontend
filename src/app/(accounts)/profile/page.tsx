@@ -55,7 +55,7 @@ const Profile = () => {
               showPhoneNumberField
               showConfirmPasswordField
               clearErrors={loading}
-              defaultValues={user as ProfileFormFields}
+              defaultValues={(user || {}) as ProfileFormFields}
               disabledFields={{ email: true }}
             >
               <div className="flex justify-between w-full mt-2">
