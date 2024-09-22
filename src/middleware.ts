@@ -11,7 +11,7 @@ export default async function middleware(req: NextRequest) {
     method: Methods.GET,
     url: Endpoints.USER,
   });
-  if (user.status !== 200 && protectedRoutes.includes(req.nextUrl.pathname as any)) {
+  if (user.status !== 200 && protectedRoutes.includes(req.nextUrl.pathname as UI_PATH)) {
     const absoluteURL = new URL(UI_PATH.LOGIN, req.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }

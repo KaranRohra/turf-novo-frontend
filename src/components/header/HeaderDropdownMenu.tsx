@@ -13,7 +13,7 @@ import UI_PATH from "@/constants/ui-path-constants";
 import { useUser } from "@/providers/user-provider";
 import { CreditCard, LogIn, LogOut, Menu, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 interface IHeaderDropdownMenuProps {
   dropdownTitle?: React.ReactNode;
@@ -32,13 +32,13 @@ export default function HeaderDropdownMenu({
   showLogin = false,
   onMenuToggle,
 }: IHeaderDropdownMenuProps) {
-  const [_cookies, _setcookies, removeCookie] = useCookies();
+  const cookies = new Cookies();
   const userContext = useUser();
   const router = useRouter();
   const navigateOnItemClick = (path: string) => router.push(path);
 
   const handleLogout = () => {
-    removeCookie("token");
+    cookies.remove("token");
     userContext.setUser(null);
     navigateOnItemClick(UI_PATH.LOGIN);
   };

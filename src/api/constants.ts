@@ -15,7 +15,7 @@ export enum Methods {
 export interface IApiTemplate {
   method: Methods;
   url: Endpoints;
-  data?: any;
-  headers?: any;
+  data?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  headers?: Record<string, string>;
   baseUrl?: string;
 }

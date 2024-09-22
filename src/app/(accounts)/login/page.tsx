@@ -11,13 +11,13 @@ import { apiCall } from "@/utils/utils-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [_, setCookie] = useCookies();
+  const cookies = new Cookies();
   const userContext = useUser();
 
   const handleFormSubmit = async (formData: ProfileFormFields) => {
@@ -28,7 +28,7 @@ export default function LoginForm() {
       data: { ...formData },
     });
     if (res.data.token) {
-      setCookie("token", res.data.token);
+      cookies.set("token", res.data.token);
       const userResponse = await apiCall({
         method: Methods.GET,
         url: Endpoints.USER,
@@ -71,7 +71,7 @@ export default function LoginForm() {
           </CardContent>
           <CardFooter className="flex flex-col items-center">
             <Link href={UI_PATH.REGISTER} className="text-blue-500 hover:underline">
-              Don't have an account? Register here.
+              Don&apos;t have an account? Register here.
             </Link>
           </CardFooter>
         </Card>
