@@ -1,9 +1,9 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface ProfileFormFields {
   firstName?: string;
@@ -23,6 +23,8 @@ interface ProfileFormProps {
   showPasswordField?: boolean;
   showConfirmPasswordField?: boolean;
   clearErrors?: boolean;
+  defaultValues?: ProfileFormFields;
+  disabledFields?: Partial<Record<keyof ProfileFormFields, boolean>>;
   children?: React.ReactNode;
 }
 
@@ -36,6 +38,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   showPasswordField = true,
   showConfirmPasswordField = false,
   clearErrors = false,
+  defaultValues = {},
+  disabledFields = {},
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -115,13 +119,20 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <div className="flex space-x-4">
               <div className="flex flex-col space-y-1.5 w-1/2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" type="text" placeholder="First name" required />
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="First name"
+                  required
+                  defaultValue={defaultValues.firstName}
+                  disabled={disabledFields.firstName}
+                />
                 {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
               </div>
               {showLastNameField && (
                 <div className="flex flex-col space-y-1.5 w-1/2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" type="text" placeholder="Last name" required />
+                  <Input id="lastName" type="text" placeholder="Last name" defaultValue={defaultValues.lastName} required disabled={disabledFields.lastName} />
                   {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
                 </div>
               )}
@@ -130,14 +141,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           {showEmailField && (
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Email" required />
+              <Input id="email" type="email" placeholder="Email" defaultValue={defaultValues.email} required disabled={disabledFields.email} />
               {errors.email && <span className="text-red-500">{errors.email}</span>}
             </div>
           )}
           {showPhoneNumberField && (
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="phoneNumber">Phone Number</Label>
-              <Input id="phoneNumber" type="tel" placeholder="Phone number" required />
+              <Input id="phoneNumber" type="tel" placeholder="Phone number" defaultValue={defaultValues.phoneNo} required disabled={disabledFields.phoneNo} />
               {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
             </div>
           )}
@@ -145,7 +156,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <div className="flex flex-col space-y-1.5 relative">
               <Label htmlFor="password">Password</Label>
               <div className="flex">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder="Password" required />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  defaultValue={defaultValues.password}
+                  required
+                  disabled={disabledFields.password}
+                />
                 <Button type="button" variant="outline" className="ml-3 p-2" onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </Button>
@@ -156,7 +174,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           {showConfirmPasswordField && (
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input id="confirmPassword" type={showPassword ? "text" : "password"} placeholder="Confirm your password" required />
+              <Input
+                id="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                defaultValue={defaultValues.confirmPassword}
+                required
+                disabled={disabledFields.confirmPassword}
+              />
               {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
             </div>
           )}
