@@ -1,5 +1,4 @@
-import { CreditCard, LogIn, LogOut, Menu, User } from "lucide-react";
-
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import UI_PATH from "@/constants/ui-path-constants";
+import { useUser } from "@/providers/user-provider";
+import { CreditCard, LogIn, LogOut, Menu, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Cookies } from "react-cookie";
 
 interface IHeaderDropdownMenuProps {
   dropdownTitle?: React.ReactNode;
@@ -30,8 +32,16 @@ export default function HeaderDropdownMenu({
   showLogin = false,
   onMenuToggle,
 }: IHeaderDropdownMenuProps) {
+  const cookies = new Cookies();
+  const userContext = useUser();
   const router = useRouter();
   const navigateOnItemClick = (path: string) => router.push(path);
+
+  const handleLogout = () => {
+    cookies.remove("token");
+    userContext.setUser(null);
+    navigateOnItemClick(UI_PATH.LOGIN);
+  };
 
   return (
     <DropdownMenu onOpenChange={onMenuToggle}>
@@ -61,7 +71,7 @@ export default function HeaderDropdownMenu({
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {showLogout && (
-          <DropdownMenuItem className="cursor-pointer" onClick={() => navigateOnItemClick(UI_PATH.LOGIN)}>
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownMenuItem>

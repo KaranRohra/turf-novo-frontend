@@ -42,7 +42,7 @@ const Header = ({ user }: HeaderProps) => {
               }
             />
           ) : (
-            <Button variant="outline" onClick={() => router.push(UI_PATH.LOGIN)}>Login</Button>
+            <Button onClick={() => router.push(UI_PATH.LOGIN)}>Login</Button>
           )}
         </div>
 
